@@ -5,38 +5,27 @@ import {Test, console} from "forge-std/Test.sol";
 import {GuessTheSecretNumberChallenge} from "../../src/lotteries/GuessTheSecretNumberChallenge.sol";
 
 contract GuessTheSecretNumberChallengeTest is Test {
+    GuessTheSecretNumberChallenge challenge;
+
     receive() external payable {}
 
-    function setUp() public {}
-
-    function testSolutionOnchain() public {
-        for (uint8 i = 0; i < 255; i++) {
-            vm.deal(address(this), 2 ether);
-            GuessTheSecretNumberChallenge challenge = new GuessTheSecretNumberChallenge{value: 1 ether}();
-            challenge.guess{value: 1 ether}(i);
-            
-            if (challenge.isComplete()) {
-                console.log("Answer is %s", i);
-                break;
-            }
-        }
-        
-        assertEq(address(this).balance, 2 ether);
+    function setUp() public {
+        vm.deal(address(this), 2 ether);
+        challenge = new GuessTheSecretNumberChallenge{value: 1 ether}();
     }
 
-    function testSolutionOffchain() public {
+    function testBruteForce() public {
         bytes32 answerHash = 0xdb81b4d58595fbbbb592d3661a34cdca14d7ab379441400cbfa1b78bc447c365;
-        vm.deal(address(this), 2 ether);
-        GuessTheSecretNumberChallenge challenge = new GuessTheSecretNumberChallenge{value: 1 ether}();
-
+        
+        // uint8 can only hold 256 in maximum, 
+        //   we can try hash all of them to get answer.
         for (uint8 i = 0; i < 255; i++) {
             if (keccak256(abi.encodePacked(i)) == answerHash) {
-                console.log("Answer is %s", i);
                 challenge.guess{value: 1 ether}(i);
                 break;
             }
         }
         
-        assertTrue(challenge.isComplete());
+        assertTrue(challenge.isComplete(), "not completed");
     }
 }
