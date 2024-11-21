@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
-import {GuessTheSecretNumberChallenge} from "../src/GuessTheSecretNumberChallenge.sol";
+import {GuessTheSecretNumberChallenge} from "../../src/lotteries/GuessTheSecretNumberChallenge.sol";
 
 contract GuessTheSecretNumberChallengeTest is Test {
     receive() external payable {}
