@@ -2,16 +2,16 @@
 pragma solidity ^0.8.13;
 
 import {Test, console} from "forge-std/Test.sol";
-import {GuessTheSecretNumberChallenge} from "../../src/lotteries/GuessTheSecretNumberChallenge.sol";
+import {GuessTheSecretNumber} from "../../src/lotteries/GuessTheSecretNumber.sol";
 
-contract GuessTheSecretNumberChallengeTest is Test {
-    GuessTheSecretNumberChallenge challenge;
+contract GuessTheSecretNumberTest is Test {
+    GuessTheSecretNumber challenge;
 
     receive() external payable {}
 
     function setUp() public {
         vm.deal(address(this), 2 ether);
-        challenge = new GuessTheSecretNumberChallenge{value: 1 ether}();
+        challenge = new GuessTheSecretNumber{value: 1 ether}();
     }
 
     function testBruteForce() public {

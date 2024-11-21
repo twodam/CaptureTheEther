@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-contract GuessTheRandomNumberChallenge {
-    uint8 answer;
+contract GuessTheSecretNumber {
+    bytes32 answerHash = 0xdb81b4d58595fbbbb592d3661a34cdca14d7ab379441400cbfa1b78bc447c365;
 
     constructor() payable {
         require(msg.value == 1 ether);
-        answer = uint8(uint256(keccak256(abi.encodePacked(blockhash(block.number - 1), block.timestamp))));
     }
 
     function isComplete() public view returns (bool) {
@@ -14,9 +13,9 @@ contract GuessTheRandomNumberChallenge {
     }
 
     function guess(uint8 n) public payable {
-        require(msg.value == 1 ether, "pay to guess only");
+        require(msg.value == 1 ether);
 
-        if (n == answer) {
+        if (keccak256(abi.encodePacked(n)) == answerHash) {
             payable(msg.sender).transfer(2 ether);
         }
     }
