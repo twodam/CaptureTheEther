@@ -6,6 +6,7 @@ import {PredictTheFuture} from "../../src/lotteries/PredictTheFuture.sol";
 
 contract PredictTheFutureTest is Test {
     PredictTheFuture challenge;
+
     receive() external payable {}
 
     function setUp() public {
@@ -19,20 +20,20 @@ contract PredictTheFutureTest is Test {
         vm.deal(address(this), 1 ether);
         uint8 answer = 0;
         Proxy proxy = new Proxy(challenge);
-        uint blockNumber = block.number;
+        uint256 blockNumber = block.number;
         proxy.lockInGuess{value: 1 ether}(answer);
-        
+
         uint8 lastIndex = 0;
         for (uint8 i = 0; i < 256; i++) {
             vm.roll(blockNumber + 2 + i);
             try proxy.attack() {
                 lastIndex = i + 1;
                 break;
-            } catch (bytes memory /*lowLevelData*/) {
+            } catch (bytes memory) /*lowLevelData*/ {
                 // This is executed in case revert() was used.
             }
         }
-        
+
         assertTrue(challenge.isComplete(), "not completed");
     }
 }

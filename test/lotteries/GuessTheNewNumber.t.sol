@@ -6,6 +6,7 @@ import {GuessTheNewNumber} from "../../src/lotteries/GuessTheNewNumber.sol";
 
 contract GuessTheNewNumberTest is Test {
     GuessTheNewNumber challenge;
+
     receive() external payable {}
 
     function setUp() public {
@@ -17,12 +18,12 @@ contract GuessTheNewNumberTest is Test {
         // this call is from a Contract
         //   which share same block infos.
         //   so we can just calculate the answer to "guess".
-        // we can deploy a proxy contract to do this 
+        // we can deploy a proxy contract to do this
         //   if not within foundry test.
         uint8 answer = uint8(uint256(keccak256(abi.encodePacked(blockhash(block.number - 1), block.timestamp))));
         vm.deal(address(this), 1 ether);
         challenge.guess{value: 1 ether}(answer);
-        
+
         assertTrue(challenge.isComplete(), "not completed");
     }
 }

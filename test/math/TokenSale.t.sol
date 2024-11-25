@@ -6,6 +6,7 @@ import {TokenSale} from "../../src/math/TokenSale.sol";
 
 contract TokenSaleTest is Test {
     TokenSale challenge;
+
     receive() external payable {}
 
     function setUp() public {
@@ -21,10 +22,10 @@ contract TokenSaleTest is Test {
         unchecked {
             // max / ether ... * ether = max
             //   so plus it with one will cause overflow
-            uint256 numTokens = (type(uint256).max / 1 ether)+1;
+            uint256 numTokens = (type(uint256).max / 1 ether) + 1;
             // we need to pay this `overflow` amount
             uint256 value = numTokens * 1 ether % type(uint256).max;
-            // now we can get almost type(uint256).max tokens 
+            // now we can get almost type(uint256).max tokens
             //   with only a few ether/wei.
             challenge.buy{value: value}(numTokens);
         }
@@ -33,4 +34,3 @@ contract TokenSaleTest is Test {
         assertTrue(challenge.isComplete(), "not completed");
     }
 }
-

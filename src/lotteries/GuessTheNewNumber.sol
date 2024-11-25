@@ -4,7 +4,6 @@ pragma solidity ^0.8.13;
 contract GuessTheNewNumber {
     constructor() payable {
         require(msg.value == 1 ether);
-        
     }
 
     function isComplete() public view returns (bool) {

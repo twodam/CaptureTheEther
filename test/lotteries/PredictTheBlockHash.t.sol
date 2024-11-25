@@ -6,6 +6,7 @@ import {PredictTheBlockHash} from "../../src/lotteries/PredictTheBlockHash.sol";
 
 contract PredictTheBlockHashTest is Test {
     PredictTheBlockHash challenge;
+
     receive() external payable {}
 
     function setUp() public {
@@ -23,4 +24,3 @@ contract PredictTheBlockHashTest is Test {
         assertTrue(challenge.isComplete(), "not completed");
     }
 }
-

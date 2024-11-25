@@ -16,8 +16,8 @@ contract GuessTheSecretNumberTest is Test {
 
     function testBruteForce() public {
         bytes32 answerHash = 0xdb81b4d58595fbbbb592d3661a34cdca14d7ab379441400cbfa1b78bc447c365;
-        
-        // uint8 can only hold 256 in maximum, 
+
+        // uint8 can only hold 256 in maximum,
         //   we can try hash all of them to get answer.
         for (uint8 i = 0; i < 255; i++) {
             if (keccak256(abi.encodePacked(i)) == answerHash) {
@@ -25,7 +25,7 @@ contract GuessTheSecretNumberTest is Test {
                 break;
             }
         }
-        
+
         assertTrue(challenge.isComplete(), "not completed");
     }
 }
