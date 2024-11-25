@@ -33,7 +33,6 @@ contract PredictTheFutureTest is Test {
             }
         }
         
-        console.log("lastIndex: %s", lastIndex);
         assertTrue(challenge.isComplete(), "not completed");
     }
 }
